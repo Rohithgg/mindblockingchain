@@ -130,7 +130,7 @@ public class BlockchainNode
         }
     }
 
-    public void AddBlock(string data) // what to do with this lot of shit
+    public void AddBlock(string data) // what to do with this lot of shit have to change from pilot
     {
         var previousBlock = blockchain[blockchain.Count - 1];
         var validatorAddress = SelectValidator(previousBlock.Index);
