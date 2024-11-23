@@ -3,7 +3,7 @@
 
 public class PoS //proof of stake
 {
-    public string Address {get; private set;}
+    public string? Address {get; private set;}
     public decimal Balance { get; set; }
     public PoS()
         {

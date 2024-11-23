@@ -38,3 +38,4 @@ D:\blockChain\blockChain\obj\Debug\net8.0\refint\blockChain.dll
 D:\blockChain\blockChain\obj\Debug\net8.0\blockChain.pdb
 D:\blockChain\blockChain\obj\Debug\net8.0\blockChain.genruntimeconfig.cache
 D:\blockChain\blockChain\obj\Debug\net8.0\ref\blockChain.dll
+D:\blockChain\blockChain\obj\Debug\net8.0\blockChain.sourcelink.json

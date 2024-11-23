@@ -7,7 +7,7 @@ namespace blockChain.Consensus;
 
 public class PoW // proof of work
 {
-    public string Mine(Block block)
+    public static string Mine(Block block)
     {
         while (block.Hash.Substring(0, 4) != "0000")
         {
