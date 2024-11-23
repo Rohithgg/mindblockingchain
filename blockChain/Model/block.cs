@@ -8,10 +8,10 @@ namespace blockChain.Model;
 public class Block
 {
     public List<Block> Chain { get; private set; }
-    public int difficulty = 2;
+    public int Difficulty = 2;
     public Block()
-    {
-        Chain = new List<Block> { GenisisbBlock() };
+    {   
+        Chain = new List<Block> { GenesisBlock() };
     }
     public int Index { get; set; }// position.
     public string Data { get;  set; }
@@ -21,7 +21,7 @@ public class Block
     public DateTime timelog { get; set; }
     public double TimeElapsed { get; set; }
     // public int HashesComputed { get; set; } 
-    public string Validator { get; set; }
+    public string? Validator { get; set; }
     
     public string CalculateHash()
     {
@@ -38,15 +38,15 @@ public class Block
             return sb.ToString();
         } 
     }
-    private Block GenisisbBlock()// something is wrong here
+    private Block GenesisBlock()// something is wrong here
     {
         return new Block()
         {
             Index = 0,
             timelog = DateTime.Now,
-            Data = "Genisis Block",
+            Data = "Genesis Block",
             PreviousHash = "0",
-            Hash = "0",
+            Hash = CalculateHash(),
             Nonce = 0
         };
     }
@@ -77,7 +77,7 @@ public class Block
             Block currentBlock = Chain[i];
             Block previousBlock = Chain[i - 1];
 
-            if (currentBlock.Hash != currentBlock.CalculateHash())
+            if (currentBlock.Hash != CalculateHash())
             {
                 return false;
             }
@@ -94,13 +94,13 @@ public class Block
 public class BlockchainNode
 {
     private List<Block> blockchain;
-    private Dictionary<string, PoS> wallets;
+    private Dictionary<string?, PoS> wallets;
     private decimal minimumStake;
 
     public BlockchainNode(decimal minimumStake = 1000.0M)
     {
         blockchain = new List<Block>();
-        wallets = new Dictionary<string, PoS>();
+        wallets = new Dictionary<string?, PoS>();
         this.minimumStake = minimumStake;
 
         // Create genesis block
@@ -109,12 +109,14 @@ public class BlockchainNode
 
     private void CreateGenesisBlock()
     {
-        var genesisWallet = new PoS();
-        genesisWallet.Balance = 1000000.0M;
-        wallets[genesisWallet.Address] = genesisWallet;
+        var genesisWallet = new PoS
+        {
+            Balance = 1000000.0M
+        };
+        if (genesisWallet.Address != null) wallets[genesisWallet.Address] = genesisWallet;
 
-        /*var genesisBlock = new Block(0, "Genesis Block", "0", PoS.Address);//static or non static, but whats with the PoS.Address Address variable is in Pos thingy  
-        blockchain.Add(genesisBlock);*/
+        var genesisBlock = new Block(0, "Genesis Block", "0", PoS.Address);//static or non static, but whats with the PoS.Address Address variable is in Pos thingy
+        blockchain.Add(genesisBlock);
     }
 
     public void AddWallet(PoS wallet)
@@ -139,11 +141,11 @@ public class BlockchainNode
         //Console.WriteLine($"New block added: {newBlock.Hash} (Validator: {newBlock.Validator})");
     }
 
-    private string SelectValidator(int blockIndex)
+    private string? SelectValidator(int blockIndex)
     {
         // Simple implementation: Select the validator based on the last block's hash
-        int validatorIndex = (int)(blockIndex % wallets.Count);
-        int i = 0;
+        var validatorIndex = (int)(blockIndex % wallets.Count);
+        var i = 0;
         foreach (var wallet in wallets.Values)
         {
             if (i == validatorIndex)
